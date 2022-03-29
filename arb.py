@@ -12,6 +12,7 @@ import re
 import pandas as pd
 import csv
 import numpy as np
+import winsound
 
 
 pd.options.display.float_format = '{:.6f}'.format
@@ -19,6 +20,9 @@ pd.options.display.float_format = '{:.6f}'.format
 # Instantiate options
 opts = Options()
 opts.add_argument('headless')
+opts.add_argument("--log-level=3")
+opts.add_experimental_option('excludeSwitches', ['enable-logging'])
+
 # opts.add_argument(" — headless") # Uncomment if the headless version needed
 #opts.binary_location = "C:\Users\atrni\PycharmProjects\pythonProject\chromedriver"
 
@@ -220,14 +224,23 @@ def everything():
     df_master= df_master[df_master['arbitrage %'] > 5] #not worth it
     df_master = df_master[df_master['ADA TVL'] > 40000] #pool too small
     df_master = df_master[df_master.index != "CARDS"]  # remove CARDS for now, min pool is too small to be useful
+    df_master = df_master[df_master.index != "ASHIB"]  # remove ASHIB for now, min pool is too small to be useful
+    df_master = df_master[df_master.index != "RAVE"]  # remove RAVE for now, min pool is too small to be useful
+    df_master = df_master[df_master.index != "MILK"]  # remove MILK for now, min pool is too small to be useful
 
     df_master.to_csv('Output.csv', index = True)
 
 
     if df_master.empty:
         print("No Matches")
+
+
     else:
         print(df_master)
+        winsound.Beep(1800, 500)
+        winsound.Beep(1800, 500)
+
+
     print("===================" + str(datetime.now()) + "===================")
     return
 
